@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" 
+class="light"
 th:fragment="parent(content,title,script)"
 xmlns:th="http://www.thymeleaf.org" >
 <head>
@@ -11,6 +12,7 @@ xmlns:th="http://www.thymeleaf.org" >
     <title data-th-replace="${title}">CAP</title>
 </head>
 <body>
+
 
     <div data-th-replace="navbar :: navbar"></div>
 
@@ -26,5 +28,7 @@ xmlns:th="http://www.thymeleaf.org" >
 </div>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
     <th:block data-th-replace="${script}"></th:block>
+
+    <script data-th-src="${'/js/script.js'}"></script>
 </body>
 </html>
