@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" 
+<html 
 class="light"
+lang="en" 
 th:fragment="parent(content,title,script)"
 xmlns:th="http://www.thymeleaf.org" >
 <head>
@@ -11,10 +12,10 @@ xmlns:th="http://www.thymeleaf.org" >
 
     <title data-th-replace="${title}">CAP</title>
 </head>
-<body>
+<body class="dark:bg-gray-900 bg-gray-100 dark:text-white">
 
 
-    <div data-th-replace="navbar :: navbar"></div>
+    <div data-th-replace="~{navbar :: navbar}"></div>
 
    <!-- main content-->
 
@@ -24,9 +25,9 @@ xmlns:th="http://www.thymeleaf.org" >
 
     <!--common foor-->
 
-    <footer class="p-4"> Footer ......</footer>
+    <!--<footer class="p-4"> Footer ......</footer> -->
 </div>
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <th:block data-th-replace="${script}"></th:block>
 
     <script data-th-src="${'/js/script.js'}"></script>
