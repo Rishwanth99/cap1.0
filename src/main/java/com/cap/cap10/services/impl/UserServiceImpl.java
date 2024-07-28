@@ -3,9 +3,11 @@ package com.cap.cap10.services.impl;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cap.cap10.entities.User;
+import com.cap.cap10.helpers.AppConstants;
 import com.cap.cap10.helpers.ResourceNotFoundException;
 import com.cap.cap10.repositories.UserRepo;
 import com.cap.cap10.services.UserService;
@@ -21,6 +23,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
@@ -30,6 +35,12 @@ public class UserServiceImpl implements UserService {
         String userId = UUID.randomUUID().toString();
         
         user.setUserId(userId);
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        //set the user role
+
+        user.setRoleList(List.of(AppConstants.ROLE_USER));
         return userRepo.save(user);
     }
 
