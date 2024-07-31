@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cap.cap10.entities.User;
 import com.cap.cap10.forms.UserForm;
@@ -26,6 +25,12 @@ public class PageControllers {
 
     @Autowired
     private UserService userService;
+
+    @RequestMapping("/")
+    public String index(){
+        return "redirect:/home";
+    }
+
 
     @RequestMapping("/home")
     public String home(){

@@ -3,17 +3,19 @@ package com.cap.cap10.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
 
 import com.cap.cap10.services.impl.SecurityCustomUserDetailService;
 
 
 @Configuration
-public class securityConfig {
+public  class securityConfig {
 
 
     /* 
@@ -41,6 +43,7 @@ public class securityConfig {
     }
 
     */
+    
 
     @Autowired
     private SecurityCustomUserDetailService userDetailService;
@@ -61,5 +64,37 @@ public class securityConfig {
     public PasswordEncoder passwordEncoder(){
 
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+
+        httpSecurity.authorizeHttpRequests(authorize ->{
+            //authorize.requestMatchers("/home").permitAll();
+
+            authorize.requestMatchers("/user/**").authenticated();
+            authorize.anyRequest().permitAll();
+        });
+
+        
+        httpSecurity.formLogin(formlogin ->{
+
+            formlogin.loginPage("/login")
+            .loginProcessingUrl("/authenticate")
+            .defaultSuccessUrl("/user/dashboard", true)
+          //  .failureForwardUrl("/login?error=true")
+            .usernameParameter("email")
+            .passwordParameter("password");
+        });
+
+
+        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+        httpSecurity.logout(logoutForm ->{
+
+            logoutForm.logoutUrl("/logout");
+            logoutForm.logoutSuccessUrl("/login?logout=true");
+        });
+
+        return httpSecurity.build();
     }
 }
