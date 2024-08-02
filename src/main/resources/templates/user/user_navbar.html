@@ -1,5 +1,6 @@
+
 <nav
-  data-th-fragment="navbar"
+  data-th-fragment="user-navbar"
   class="bg-white border-gray-900 shadow-sm dark:bg-gray-900"
 >
   <div
@@ -32,18 +33,18 @@
         <i class="fa-solid fa-circle-half-stroke"></i> <span>Light</span>
       </button>
       <a
-        data-th-href="@{'/login'}"
+        data-th-href="@{'/user/profile'}"
         type="button" 
-        class="text-white bg-green-600 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        class="text-white bg-blue-700 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
-        Login
+        <span data-th-text="${loggedUser.name}"></span>
       </a>
       <a
-        data-th-href="@{'/register'}"
+        data-th-href="@{'/logout'}"
         type="button"
-        class="text-white bg-blue-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        class="text-white bg-red-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-red-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
-        Signup
+        Logout
       </a>
 
       <!-- icons to open menu on small screen -->
