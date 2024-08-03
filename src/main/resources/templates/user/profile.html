@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="en"  th:replace="~{base :: parent(~{:: #content}, ~{::title} ,~{::script})}" >
 <head>
-    <title>Profile </title>
+    <title data-th-text="${loggedUser.name}+' | Profile' ">Profile</title>
 
 </head>
 <body> 
+
+    <div id="content" >
+
+    <!-- user logged in we use this sidebar-->
+    <div data-if="${loggedUser}">
+
+        <div data-th-replace="~{user/sidebar :: sidebar}"></div>
+
+    </div>
     
-    <div id="content">
+    <div class="pl-60 pt-20" style="height: 1000px;">
 
         <h1 data-th-text="${loggedUser.name}+' CAP'">Profile page</h1>
         <p>User Profile page..... </p>
     </div>
 
+</div>
 
     <script> </script>
 

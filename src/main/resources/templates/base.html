@@ -15,12 +15,16 @@ xmlns:th="http://www.thymeleaf.org" >
 </head>
 <body class="dark:bg-gray-900 bg-gray-100 dark:text-white">
 
+
+    <!-- user logged in we use this navbar -->
     <div data-th-if="${loggedUser}">
 
         <div data-th-replace="~{user/user_navbar :: user-navbar}"></div>
 
     </div>
 
+
+    <!-- user not logged in we use this navbar -->
     <div data-th-unless="${loggedUser}">
 
         <div data-th-replace="~{navbar :: navbar}"></div>
