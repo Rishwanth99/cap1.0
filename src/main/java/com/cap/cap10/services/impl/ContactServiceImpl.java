@@ -61,11 +61,7 @@ public class ContactServiceImpl implements ContactService {
         return contactRepo.save(contact);
     }
 
-    @Override
-    public List<contact> search(String name, String email, String phoneNumber) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+   
 
     @Override
     public contact update(contact contact) {
@@ -83,6 +79,36 @@ public class ContactServiceImpl implements ContactService {
         return contactRepo.findByUser(user,pageable);
     }
 
+    @Override
+    public Page<contact> searchByName(String name, int size, int page, String sortBy, String sortDir, User user) {
+      
+        Sort sort = sortDir.equals("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        
+        var pageable = PageRequest.of(page,size,sort);
+    
+        return contactRepo.findByUserAndEmailContaining(user,name,pageable);
+    }
+
+    @Override
+    public Page<contact> searchByEmail(String email, int size, int page, String sortBy, String sortDir, User user) {
+        Sort sort = sortDir.equals("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        
+        var pageable = PageRequest.of(page,size,sort);
+    
+        return contactRepo.findByUserAndEmailContaining(user,email,pageable);
+    }
+
+    @Override
+    public Page<contact> searchByPhoneNumber(String phoneNumber, int size, int page, String sortBy, String sortDir, User user) {
+        
+        Sort sort = sortDir.equals("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        
+        var pageable = PageRequest.of(page,size,sort);
+    
+        return contactRepo.findByUserAndPhoneNumberContaining(user,phoneNumber,pageable);
+    }
+
+    
     
 
 

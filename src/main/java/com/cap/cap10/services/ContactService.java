@@ -27,8 +27,15 @@ public interface ContactService {
     contact getById(String id);
 
     
-    //search contact
-    List<contact> search(String name,String email,String phoneNumber);
+    //search contact by name
+    Page<contact> searchByName(String name,int size,int page,String sortBy,String sortDir,User user);
+
+    //search contact by email
+    Page<contact> searchByEmail(String email,int size,int page,String sortBy,String sortDir,User user);
+
+    //search conatch by phone number
+    Page<contact> searchByPhoneNumber(String phoneNumber,int size,int page,String sortBy,String sortDir,User user);
+
 
     //get contact by userId
     List<contact> getByUserId(String userId);
