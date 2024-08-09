@@ -86,7 +86,7 @@ public class ContactServiceImpl implements ContactService {
         
         var pageable = PageRequest.of(page,size,sort);
     
-        return contactRepo.findByUserAndEmailContaining(user,name,pageable);
+        return contactRepo.findByUserAndNameContaining(user,name,pageable);
     }
 
     @Override
