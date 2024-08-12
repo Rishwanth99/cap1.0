@@ -52,6 +52,9 @@ public  class securityConfig {
     @Autowired
     private OAuthAuthenticationSucessHandler handler;
 
+    @Autowired
+    private AuthFailureHandler authFailureHandler ;
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider(){
 
@@ -88,8 +91,13 @@ public  class securityConfig {
             .defaultSuccessUrl("/user/profile", true)
           //  .failureForwardUrl("/login?error=true")
             .usernameParameter("email")
-            .passwordParameter("password");
+            .passwordParameter("password")
+            .failureHandler(authFailureHandler);
         });
+
+        
+
+
 
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);

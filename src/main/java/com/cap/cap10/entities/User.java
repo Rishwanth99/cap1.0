@@ -1,7 +1,6 @@
 package com.cap.cap10.entities;
 
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -40,6 +39,8 @@ public class User  implements UserDetails{
 
     @Column(unique = true,nullable = false)
     private String email;
+
+    
     private String password;
     @Column(length = 1000)
     private String about;
@@ -49,7 +50,8 @@ public class User  implements UserDetails{
 
     private String phoneNumber;
 
-    private boolean enabled = true;
+    private boolean enabled = false;
+
     private boolean emailVerified = false;
     private boolean phoneVerified = false;
 
@@ -64,6 +66,9 @@ public class User  implements UserDetails{
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roleList = new ArrayList<>();
+
+    
+    private String emailToken;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

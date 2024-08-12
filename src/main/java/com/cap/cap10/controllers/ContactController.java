@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,9 +92,7 @@ public class ContactController {
        // logger.info("image processing : {}",form.getContactImage().getOriginalFilename());   
         // upload the file
 
-        String fileName = UUID.randomUUID().toString();
-
-        String fileURL = imageService.uploadImage(form.getContactImage(),fileName);
+      
 
         //convert from form to contact entity
 
@@ -102,13 +101,23 @@ public class ContactController {
         contact.setEmail(form.getEmail());
         contact.setPhoneNumber(form.getPhoneNumber());
         contact.setAddress(form.getAddress());
-        contact.setPicture(fileURL);
+        
         contact.setDescription(form.getDescription());
         contact.setWebsiteLink(form.getWebsiteLink());
         contact.setLinkedInLink(form.getLinkedInLink());
         contact.setFavorite(form.isFavorite());
         contact.setUser(user);// i am getting from database
+     
+        if(form.getContactImage()!=null && !form.getContactImage().isEmpty()) {
+
+        String fileName = UUID.randomUUID().toString();
+
+        String fileURL = imageService.uploadImage(form.getContactImage(),fileName);
+
+        contact.setPicture(fileURL);
         contact.setCloudinaryImagePublicId(fileName);
+
+        }
         contactService.save(contact);
         System.out.println(form.toString());
 
@@ -203,6 +212,100 @@ public class ContactController {
         .build());
 
         return "redirect:/user/contact";
+    }
+
+    // update contact
+
+    @RequestMapping("/view/{contactId}")
+    public String updateContactView(@PathVariable("contactId") String contactId,Model model) {
+
+        var contact = contactService.getById(contactId);
+
+        contactForm contactForm = new contactForm();
+        contactForm.setName(contact.getName());
+        contactForm.setEmail(contact.getEmail());
+        contactForm.setPhoneNumber(contact.getPhoneNumber());
+        contactForm.setAddress(contact.getAddress());
+        contactForm.setDescription(contact.getDescription());
+        contactForm.setWebsiteLink(contact.getWebsiteLink());
+        contactForm.setLinkedInLink(contact.getLinkedInLink());
+        contactForm.setFavorite(contact.isFavorite());
+        contactForm.setPicture(contact.getPicture());
+
+        model.addAttribute("contactForm", contactForm);
+
+        model.addAttribute("contactId", contactId);
+
+
+        return "user/update_contact";
+    }
+
+
+    @RequestMapping(value = "/update/{contactId}" , method = RequestMethod.POST)
+    public String updateContact(@PathVariable String contactId 
+    ,@Valid @ModelAttribute contactForm contactForm,BindingResult result,HttpSession session,Model model
+    ) {
+
+
+        //update contact
+        
+        if(result.hasErrors()){
+
+
+            session.setAttribute("message",message
+                .builder()
+                .type(MessageType.red)
+                .content("Please enter valid data")
+                .build()
+                );
+
+            return "user/update_contact";
+        }
+ 
+        var  contact= contactService.getById(contactId);
+
+        contact.setId(contactId);
+        contact.setName(contactForm.getName());
+        contact.setEmail(contactForm.getEmail());
+        contact.setPhoneNumber(contactForm.getPhoneNumber());
+        contact.setAddress(contactForm.getAddress());
+        contact.setDescription(contactForm.getDescription());
+        contact.setWebsiteLink(contactForm.getWebsiteLink());
+        contact.setLinkedInLink(contactForm.getLinkedInLink());
+        contact.setFavorite(contactForm.isFavorite());
+
+        
+        // extracting the image
+
+        if(contactForm.getContactImage() != null && !contactForm.getContactImage().isEmpty()){
+
+            String fileName = UUID.randomUUID().toString();
+            String imageUrl = imageService.uploadImage(contactForm.getContactImage(), fileName);
+
+            contact.setPicture(imageUrl);
+            contact.setCloudinaryImagePublicId(fileName);
+            contactForm.setPicture(imageUrl);
+        } 
+        else{
+            logger.info("file is empty");
+
+
+        }
+
+
+        var updatedContact = contactService.update(contact);
+        logger.info("updtatedContact : {}",updatedContact);
+
+        model.addAttribute("message",message.builder().content("Contact is Updated Successfully").type(MessageType.green).build());
+       
+        session.setAttribute("message",message
+                .builder()
+                .type(MessageType.green)
+                .content("Contact is Updated successfully")
+                .build()
+                );
+
+        return "redirect:/user/contact/view/" + contactId;
     }
 
 }

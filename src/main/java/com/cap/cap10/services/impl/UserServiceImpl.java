@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.cap.cap10.entities.User;
 import com.cap.cap10.helpers.AppConstants;
+import com.cap.cap10.helpers.Helper;
 import com.cap.cap10.helpers.ResourceNotFoundException;
 import com.cap.cap10.repositories.UserRepo;
+import com.cap.cap10.services.EmailService;
 import com.cap.cap10.services.UserService;
 
 
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmailService emailService;
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
@@ -41,7 +46,19 @@ public class UserServiceImpl implements UserService {
         //set the user role
 
         user.setRoleList(List.of(AppConstants.ROLE_USER));
-        return userRepo.save(user);
+        
+
+        String emailToken = UUID.randomUUID().toString();
+
+        user.setEmailToken(emailToken);
+
+        User savedUser = userRepo.save(user);
+
+        String emailLink = Helper.getLinkForEmailVerification(emailToken);
+
+        emailService.sendEmail(savedUser.getEmail(), "Please verify your email", emailLink);
+
+        return savedUser;
     }
 
     @Override

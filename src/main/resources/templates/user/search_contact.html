@@ -27,38 +27,46 @@
             <div data-th-replace="~{message :: messagebox}"></div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 
-                <form data-th-object="${contactSearchForm}" data-th-action="@{'/user/contact/search'}">
+                <div class="flex items-center px-4 justify-between bg-white dark:bg-gray-900">
+                    <form data-th-object="${contactSearchForm}" data-th-action="@{'/user/contact/search'}">
             
-                    <div class="flex space-x-3  p-5 items-center justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
-                        <!-- select box   -->
-                
-                        <div>
-                            <select data-th-field="*{field}" 
-                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            >
-                              <option selected value="">Select Field</option>
-                              <option value="name">Name</option>
-                              <option value="phone">Phone</option>
-                              <option value="email">Email</option>
-                            </select>
-                          </div> 
-                        
-                        <label for="table-search" class="sr-only">Search</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                                </svg>
-                            </div>
-                            <input data-th-field="*{keyword}"  type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users">
-                        </div>
-                
-                        <button type="submit" class="px-3 py-2 bg-gray-800 text-white rounded">Search</button>
-                    </div>
+                        <div class="flex space-x-3  p-5 items-center justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
+                            <!-- select box   -->
                     
-            
-                </form>
-                <table  data-th-unless="${pageContact.isEmpty()}" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <div>
+                                <select data-th-field="*{field}" 
+                                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                >
+                                  <option selected value="name">Select Field</option>
+                                  <option value="name">Name</option>
+                                  <option value="phone">Phone</option>
+                                  <option value="email">Email</option>
+                                </select>
+                              </div> 
+                            
+                            <label for="table-search" class="sr-only">Search</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                    </svg>
+                                </div>
+                                <input data-th-field="*{keyword}"  type="text" id="table-search-users" class="block p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for users">
+                            </div>
+                    
+                            <button type="submit" class="px-3 py-2 bg-gray-800 text-white rounded">Search</button>
+                        </div>
+                        
+                
+                    </form>
+
+                        
+                            <div>
+                            <button onclick="exportContacts()" type="button" class="justify-between px-3 py-2 bg-green-600 hover:bg-green-700 dark:bg-grey-900 text-white rounded"> Export</button>
+                            </div>
+                   
+                </div>
+                <table id="contact_table"  data-th-unless="${pageContact.isEmpty()}" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             
@@ -131,7 +139,7 @@
                                     <path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
                                 </a>
                                 <!--update icon-->
-                                <a href="">
+                                <a data-th-href="@{'/user/contact/view/'+*{id}}">
                                 <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
                                 </a>
@@ -186,6 +194,22 @@
 <script data-th-src="@{/js/contact.js}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script> </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@linways/table-to-excel@1.0.4/dist/tableToExcel.min.js"></script>    
+    <script> 
+        function exportContacts(){
+
+            TableToExcel.convert(document.getElementById("contact_table"), {
+
+                name:"contacts.xlsx",
+                sheet:{
+                    name:"sheet1",
+                }
+            });
+
+            
+        }
+    </script>
 
 </body>
 </html>

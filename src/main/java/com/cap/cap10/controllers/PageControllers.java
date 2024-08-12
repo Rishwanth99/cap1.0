@@ -109,6 +109,7 @@ public class PageControllers {
         user.setPassword(userForm.getPassword());
         user.setPhoneNumber(userForm.getPhoneNumber());
         user.setAbout(userForm.getAbout());
+        user.setEnabled(false);
         user.setProfilePic("https://www.pinterest.com/pin/default-avatar-profile-icon-of-social-media-user--947022627871095943/");
  
         User savedUser = userService.saveUser(user);
