@@ -5,13 +5,21 @@ This project is a web application built using the Spring Boot framework, which p
 Technologies:
 
 Spring Boot: The project uses Spring Boot as the underlying framework, which provides a comprehensive set of tools and libraries for building web applications.
+
 Java: The project is written in Java, which is a popular programming language for building enterprise-level applications.
-Thymeleaf: The project uses Thymeleaf as the templating engine, which allows for dynamic rendering of HTML templates.
+
+Thymeleaf: The project uses Thymeleaf as the templating engine, which allows for dynamic rendering of HTML templates
+
 Spring Security: The project uses Spring Security to handle authentication and authorization, which provides a robust and customizable security framework.
+
 OAuth 2.0: The project uses OAuth 2.0 for authentication, which allows users to authenticate using external providers such as Google or GitHub.
+
 Cloudinary: The project uses Cloudinary for image management, which provides a scalable and secure way to store and manage images.
+
 Hibernate Validator: The project uses Hibernate Validator for validation, which provides a comprehensive set of validation annotations and APIs.
+
 Lombok: The project uses Lombok to simplify Java development, which provides a set of annotations that can be used to reduce boilerplate code.
+
 Apache Maven: The project uses Apache Maven as the build tool, which provides a comprehensive set of tools and plugins for building and managing projects.
 
 Database:
